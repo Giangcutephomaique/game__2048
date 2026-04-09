@@ -395,7 +395,7 @@ int main(int argc, char *args[]) {
           veGiaoDien(renderer, font_o, font_tieu_de, font_nho, game);
           
           const SDL_MessageBoxButtonData cac_nut[] = {
-              { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Đóng" },
+              { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Thoát" },
               { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Chơi lại" }
           };
           
@@ -419,6 +419,8 @@ int main(int argc, char *args[]) {
                   game.sinhSoMoi();
                   game.sinhSoMoi();
                   SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+              } else {
+                  dang_choi = false; // Thoát nếu không chọn chơi lại
               }
           }
         }
