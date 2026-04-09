@@ -4,7 +4,7 @@
 - **Mã LHP:** INT2215 21
 - **Nhóm:** 05
 
-Dự án này là game 2048 viết bằng C++. Phần logic xử lý bằng C++ cơ bản. Phần giao diện đồ họa dùng thư viện SDL2.
+Dự án này là game 2048 viết bằng ngôn ngữ C++. Phần giao diện đồ họa sử dụng thư viện SDL2.
 
 ## Chức năng chính
 
