@@ -51,28 +51,28 @@ Game 2048/
 Mô hình miêu tả quá trình vận hành vòng đời dữ liệu của game:
 
 ```mermaid
-graph TD
-    A([Bật trò chơi]) --> N[Khởi tạo bảng 4x4 về 0 và đặt điểm về 0]
+flowchart TD
+    A([Bật trò chơi]) --> N[Khởi tạo bảng 4x4 về 0\nvà đặt điểm về 0]
     N --> B[Sinh 2 số ngẫu nhiên vào bảng]
     B --> H[Vẽ giao diện lên cửa sổ]
-    H --> C{Chờ sự kiện phím hoặc chuột}
+    H --> C{Chờ sự kiện\nphím hoặc chuột}
 
-    C -->|Nhấn X đóng cửa sổ| O([Thoát game])
+    C -- Nhấn X đóng cửa sổ --> O([Thoát game])
 
-    C -->|Nhấn nút Chơi Mới| P{Hộp thoại xác nhận}
-    P -->|Hủy| H
-    P -->|Bắt đầu| N
+    C -- Nhấn nút Chơi Mới --> P{Hộp thoại\nxác nhận}
+    P -- Hủy --> H
+    P -- Bắt đầu --> N
 
-    C -->|Phím điều hướng - chưa thua| D["Gọi diChuyen(): dồn ô, gộp cặp bằng nhau, cộng điểm"]
-    D --> I{Bảng có thay đổi?}
-    I -->|Không| H
-    I -->|Có| J[Sinh 1 số mới vào ô trống]
-    J --> K{Còn nước đi hợp lệ?}
-    K -->|Còn| H
-    K -->|Hết| L[Vẽ lớp phủ Game Over lên bảng]
-    L --> M{Hộp thoại tổng kết}
-    M -->|Chơi lại| N
-    M -->|Thoát| O
+    C -- Phím điều hướng\nvà chưa thua --> D["Gọi diChuyen():\ndồn ô + gộp cặp bằng nhau\n+ cộng điểm"]
+    D --> I{Bảng có\nthay đổi?}
+    I -- Có --> J[Sinh 1 số mới\nvào ô trống]
+    I -- Không --> K
+    J --> K{Còn nước đi\nhợp lệ?}
+    K -- Còn --> H
+    K -- Hết --> L["Gán trạng thái thua\nvà vẽ lớp phủ Game Over"]
+    L --> M{Hộp thoại\ntổng kết}
+    M -- Chơi lại --> N
+    M -- Thoát --> O
 ```
 
 ## 5. Ví dụ xử lý (Input/Output thuật toán gộp)
