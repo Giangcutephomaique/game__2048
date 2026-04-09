@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Mục đích: Hiển thị giao diện game 2048 bằng SDL2.
  * Chức năng: Xử lý sự kiện bàn phím, chuột và vẽ bảng game lên cửa sổ.
  */
@@ -28,7 +28,7 @@ int diem_cao_nhat = 0;
 
 /*
  * Mục đích: Tạo màu SDL từ giá trị RGBA.
- * Cách xử lý chính: Gán R, G, B, A vào struct SDL_Color và trả về.
+ * Logic xử lý: Gán R, G, B, A vào struct SDL_Color và trả về.
  */
 SDL_Color taoMau(int r, int g, int b, int a) {
   SDL_Color mau;
@@ -41,7 +41,7 @@ SDL_Color taoMau(int r, int g, int b, int a) {
 
 /*
  * Mục đích: Lấy màu nền tương ứng với giá trị ô.
- * Cách xử lý chính: Dùng switch trả về màu định sẵn cho từng giá trị (0, 2, 4,
+ * Logic xử lý: Dùng switch trả về màu định sẵn cho từng giá trị (0, 2, 4,
  * ..., 2048).
  */
 SDL_Color layMauNenO(int gia_tri) {
@@ -77,7 +77,7 @@ SDL_Color layMauNenO(int gia_tri) {
 
 /*
  * Mục đích: Lấy màu chữ phù hợp với màu nền ô.
- * Cách xử lý chính: Ô nền sáng (2, 4, 1024, 2048) trả về chữ đen, còn lại trả
+ * Logic xử lý: Ô nền sáng (2, 4, 1024, 2048) trả về chữ đen, còn lại trả
  * về chữ trắng.
  */
 SDL_Color layMauChu(int gia_tri) {
@@ -89,7 +89,7 @@ SDL_Color layMauChu(int gia_tri) {
 
 /*
  * Mục đích: Vẽ chuỗi text căn giữa trong một khung chữ nhật.
- * Cách xử lý chính: Tạo texture từ chuỗi, tính tọa độ căn giữa, vẽ lên
+ * Logic xử lý: Tạo texture từ chuỗi, tính tọa độ căn giữa, vẽ lên
  * renderer.
  */
 void veChuCanGiua(SDL_Renderer *renderer, TTF_Font *font, string noi_dung,
@@ -115,7 +115,7 @@ void veChuCanGiua(SDL_Renderer *renderer, TTF_Font *font, string noi_dung,
 
 /*
  * Mục đích: Vẽ chuỗi text tại tọa độ (x, y).
- * Cách xử lý chính: Tạo texture từ chuỗi và vẽ lên renderer tại tọa độ chỉ
+ * Logic xử lý: Tạo texture từ chuỗi và vẽ lên renderer tại tọa độ chỉ
  * định.
  */
 void veChu(SDL_Renderer *renderer, TTF_Font *font, string noi_dung, int x,
@@ -137,7 +137,7 @@ void veChu(SDL_Renderer *renderer, TTF_Font *font, string noi_dung, int x,
 
 /*
  * Mục đích: Vẽ một ô số trên bảng game.
- * Cách xử lý chính: Tính tọa độ từ hàng và cột, vẽ hình chữ nhật bo góc với màu
+ * Logic xử lý: Tính tọa độ từ hàng và cột, vẽ hình chữ nhật bo góc với màu
  * nền, vẽ số căn giữa.
  */
 void veMotO(SDL_Renderer *renderer, TTF_Font *font_o, int hang, int cot,
@@ -159,7 +159,7 @@ void veMotO(SDL_Renderer *renderer, TTF_Font *font_o, int hang, int cot,
 
 /*
  * Mục đích: Vẽ phần tiêu đề gồm tên game, hướng dẫn và nút "Chơi Mới".
- * Cách xử lý chính: Hiển thị chữ tiêu đề, chữ hướng dẫn, vẽ nút bấm.
+ * Logic xử lý: Hiển thị chữ tiêu đề, chữ hướng dẫn, vẽ nút bấm.
  */
 void vePhanTieuDe(SDL_Renderer *renderer, TTF_Font *font_tieu_de,
                   TTF_Font *font_nho) {
@@ -177,7 +177,7 @@ void vePhanTieuDe(SDL_Renderer *renderer, TTF_Font *font_tieu_de,
 
 /*
  * Mục đích: Vẽ khung điểm hiện tại và khung kỷ lục.
- * Cách xử lý chính: Cập nhật điểm cao nhất, vẽ 2 khung hiển thị điểm và kỷ lục.
+ * Logic xử lý: Cập nhật điểm cao nhất, vẽ 2 khung hiển thị điểm và kỷ lục.
  */
 void veKhungDiemVaKyLuc(SDL_Renderer *renderer, TTF_Font *font_nho,
                         Game2048 &game) {
@@ -220,7 +220,7 @@ void veKhungDiemVaKyLuc(SDL_Renderer *renderer, TTF_Font *font_nho,
 
 /*
  * Mục đích: Vẽ nền bảng và 16 ô số 4x4.
- * Cách xử lý chính: Vẽ khung nền, sau đó vẽ từng ô theo giá trị từ logic game.
+ * Logic xử lý: Vẽ khung nền, sau đó vẽ từng ô theo giá trị từ logic game.
  */
 void veBangGame(SDL_Renderer *renderer, TTF_Font *font_o, Game2048 &game) {
   int kich_thuoc_bang = 4 * KICH_THUOC_O + 5 * KHOANG_CACH_O;
@@ -241,7 +241,7 @@ void veBangGame(SDL_Renderer *renderer, TTF_Font *font_o, Game2048 &game) {
 
 /*
  * Mục đích: Vẽ màn hình thua (lớp phủ mờ + chữ "Game Over!").
- * Cách xử lý chính: Vẽ lớp phủ bán trong suốt lên bảng, hiển thị chữ "Game
+ * Logic xử lý: Vẽ lớp phủ bán trong suốt lên bảng, hiển thị chữ "Game
  * Over!" căn giữa.
  */
 void veManHinhThua(SDL_Renderer *renderer, TTF_Font *font_tieu_de) {
@@ -262,7 +262,7 @@ void veManHinhThua(SDL_Renderer *renderer, TTF_Font *font_tieu_de) {
 
 /*
  * Mục đích: Vẽ toàn bộ giao diện game trong 1 khung hình.
- * Cách xử lý chính: Xóa màn hình, vẽ tiêu đề, điểm, bảng, và màn hình thua nếu
+ * Logic xử lý: Xóa màn hình, vẽ tiêu đề, điểm, bảng, và màn hình thua nếu
  * có.
  */
 void veGiaoDien(SDL_Renderer *renderer, TTF_Font *font_o,
@@ -287,7 +287,7 @@ void veGiaoDien(SDL_Renderer *renderer, TTF_Font *font_o,
 
 /*
  * Mục đích: Hàm chính khởi chạy game.
- * Cách xử lý chính: Khởi tạo SDL, tạo cửa sổ, xử lý sự kiện bàn phím và chuột
+ * Logic xử lý: Khởi tạo SDL, tạo cửa sổ, xử lý sự kiện bàn phím và chuột
  * trong vòng lặp game.
  */
 int main(int argc, char *args[]) {
@@ -320,7 +320,7 @@ int main(int argc, char *args[]) {
 
   SDL_Event su_kien;
 
-  // Vòng lặp chính của game
+  // Duy trì trạng thái sống của trò chơi theo thời gian thực
   while (dang_choi) {
 
     // Xử lý sự kiện từ bàn phím và chuột

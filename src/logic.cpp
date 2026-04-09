@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Mục đích: Xử lý logic game 2048.
  * Chức năng: Quản lý bảng số 4x4, di chuyển ô, gộp số, tính điểm.
  */
@@ -7,7 +7,7 @@
 
 /*
  * Mục đích: Khởi tạo game.
- * Cách xử lý chính: Gọi khoiTaoLaiBang() để đặt bảng về trạng thái ban đầu.
+ * Logic xử lý: Gọi khoiTaoLaiBang() để đặt bảng về trạng thái ban đầu.
  */
 Game2048::Game2048() {
     khoiTaoLaiBang();
@@ -15,7 +15,7 @@ Game2048::Game2048() {
 
 /*
  * Mục đích: Đặt lại bảng về trạng thái ban đầu.
- * Cách xử lý chính: Gán tất cả ô về 0 và đặt điểm về 0.
+ * Logic xử lý: Gán tất cả ô về 0 và đặt điểm về 0.
  */
 void Game2048::khoiTaoLaiBang() {
     // Gán tất cả ô về 0
@@ -29,7 +29,7 @@ void Game2048::khoiTaoLaiBang() {
 
 /*
  * Mục đích: Lấy điểm hiện tại.
- * Cách xử lý chính: Trả về biến diem_so.
+ * Logic xử lý: Trả về biến diem_so.
  */
 int Game2048::layDiemSo() {
     return diem_so;
@@ -37,7 +37,7 @@ int Game2048::layDiemSo() {
 
 /*
  * Mục đích: Lấy giá trị tại một ô trong bảng.
- * Cách xử lý chính: Trả về bang_o[hang][cot].
+ * Logic xử lý: Trả về bang_o[hang][cot].
  */
 int Game2048::layGiaTriTaiO(int hang, int cot) {
     return bang_o[hang][cot];
@@ -45,7 +45,7 @@ int Game2048::layGiaTriTaiO(int hang, int cot) {
 
 /*
  * Mục đích: Sinh số 2 hoặc 4 vào một ô trống ngẫu nhiên.
- * Cách xử lý chính: Tìm tất cả ô có giá trị 0, chọn ngẫu nhiên 1 ô, gán 2 hoặc 4.
+ * Logic xử lý: Tìm tất cả ô có giá trị 0, chọn ngẫu nhiên 1 ô, gán 2 hoặc 4.
  */
 void Game2048::sinhSoMoi() {
     int hang_o_trong[16];
@@ -78,7 +78,7 @@ void Game2048::sinhSoMoi() {
 
 /*
  * Mục đích: Di chuyển tất cả ô sang trái.
- * Cách xử lý chính: Với mỗi hàng, dồn số khác 0 sang trái, gộp 2 số liền kề bằng nhau, tính điểm.
+ * Logic xử lý: Với mỗi hàng, dồn số khác 0 sang trái, gộp 2 số liền kề bằng nhau, tính điểm.
  */
 bool Game2048::diChuyenTrai() {
     bool co_thay_doi = false;
@@ -129,7 +129,7 @@ bool Game2048::diChuyenTrai() {
 
 /*
  * Mục đích: Di chuyển tất cả ô sang phải.
- * Cách xử lý chính: Với mỗi hàng, dồn số khác 0 sang phải, gộp 2 số liền kề bằng nhau, tính điểm.
+ * Logic xử lý: Với mỗi hàng, dồn số khác 0 sang phải, gộp 2 số liền kề bằng nhau, tính điểm.
  */
 bool Game2048::diChuyenPhai() {
     bool co_thay_doi = false;
@@ -183,7 +183,7 @@ bool Game2048::diChuyenPhai() {
 
 /*
  * Mục đích: Di chuyển tất cả ô lên trên.
- * Cách xử lý chính: Với mỗi cột, dồn số khác 0 lên trên, gộp 2 số liền kề bằng nhau, tính điểm.
+ * Logic xử lý: Với mỗi cột, dồn số khác 0 lên trên, gộp 2 số liền kề bằng nhau, tính điểm.
  */
 bool Game2048::diChuyenLen() {
     bool co_thay_doi = false;
@@ -234,7 +234,7 @@ bool Game2048::diChuyenLen() {
 
 /*
  * Mục đích: Di chuyển tất cả ô xuống dưới.
- * Cách xử lý chính: Với mỗi cột, dồn số khác 0 xuống dưới, gộp 2 số liền kề bằng nhau, tính điểm.
+ * Logic xử lý: Với mỗi cột, dồn số khác 0 xuống dưới, gộp 2 số liền kề bằng nhau, tính điểm.
  */
 bool Game2048::diChuyenXuong() {
     bool co_thay_doi = false;
@@ -288,7 +288,7 @@ bool Game2048::diChuyenXuong() {
 
 /*
  * Mục đích: Kiểm tra còn nước đi hợp lệ hay không.
- * Cách xử lý chính: Kiểm tra có ô trống không. Nếu không, kiểm tra có 2 ô liền kề bằng nhau không.
+ * Logic xử lý: Kiểm tra có ô trống không. Nếu không, kiểm tra có 2 ô liền kề bằng nhau không.
  */
 bool Game2048::kiemTraCoTheDiChuyen() {
     // Kiểm tra có ô trống không
