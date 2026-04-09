@@ -52,27 +52,31 @@ Mô hình miêu tả quá trình vận hành vòng đời dữ liệu của game
 
 ```mermaid
 graph TD
-    A[Bật trò chơi] --> N[Khởi tạo lại bảng 4x4 về con số 0]
-    N --> B[Sinh ngẫu nhiên 2 số đầu tiên vào ô trống]
-    B --> C{Chờ người chơi phản hồi}
-    C -->|Bấm nút Chơi Mới| P[Hiển thị hộp thoại xác nhận hủy tiến trình hiện tại]
+    A([Bật trò chơi]) --> N[Khởi tạo bảng 4x4 bằng 0]
+    N --> B[Sinh 2 khối số ngẫu nhiên ban đầu]
+    B --> C{Chờ thao tác}
+
+    C -->|Nút Chơi Mới| P{Hộp thoại Xác nhận}
     P -->|Hủy| C
-    P -->|Đồng ý thao tác| N
-    C -->|Bấm phím điều hướng| D[Dịch chuyển tất cả ô khác 0 về đầu ranh giới]
-    D --> E{Có hai khối sát nhau đồng giá trị?}
-    E -->|Có| F[Cộng gộp hai khối, thay bằng giá trị x2, tích lũy điểm]
-    E -->|Không| G[Cập nhật định vị tọa độ mới]
+    P -->|Đồng ý| N
+
+    C -->|Phím điều hướng| D[Dồn các ô cùng về 1 hướng]
+    D --> E{Có khối liền kề đồng giá trị?}
+    E -->|Có| F[Cộng gộp thành ô x2, lưu điểm]
+    E -->|Không| G[Cập nhật tọa độ mới]
     F --> G
-    G --> H[Vẽ lại giao diện]
-    H --> I{Thuật toán sinh sai số mảng so với mảng ban đầu?}
-    I -->|Có| J[Gán 1 khối 2 hoặc 4 vào vị trí trống ngẫu nhiên]
+    G --> H[Vẽ lại giao diện lưới]
+    
+    H --> I{Bảng có thay đổi so với mảng cũ?}
     I -->|Không| C
-    J --> K{Bảng còn duy trì được nước chạy tiếp theo không?}
+    I -->|Có| J[Sinh ngẫu nhiên 1 khối số mới]
+    J --> K{Còn nước đi hợp lệ?}
     K -->|Còn| C
-    K -->|Không| L[Kích hoạt màn hình Thua và hiển thị hộp thoại tổng kết]
-    L --> M{Quyết định của người chơi?}
-    M -->|Ấn Chơi lại| N
-    M -->|Ấn Thoát| O[Đóng hoàn toàn trò chơi]
+    K -->|Hết| L[Màn hình Game Over]
+    
+    L --> M{Hộp thoại Tổng kết}
+    M -->|Chơi lại| N
+    M -->|Thoát bản| O([Đóng Game])
 ```
 
 ## 5. Ví dụ xử lý (Input/Output thuật toán gộp)
