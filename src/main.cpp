@@ -343,9 +343,8 @@ int main(int argc, char *args[]) {
           const SDL_MessageBoxData hop_thoai = {
               SDL_MESSAGEBOX_WARNING,
               cua_so,
-              "Trò chơi mới",
-              "Bạn có chắc muốn bắt đầu trò chơi mới không? Mọi tiến trình sẽ "
-              "bị mất.",
+              "Xác nhận",
+              "Bảng số hiện tại sẽ bị xóa.\nBạn có chắc chắn muốn bắt đầu trò chơi mới không?",
               2,
               cac_nut,
               NULL};
@@ -358,6 +357,7 @@ int main(int argc, char *args[]) {
               da_thua = false;
               game.sinhSoMoi();
               game.sinhSoMoi();
+              SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
             }
           }
         }
@@ -418,6 +418,7 @@ int main(int argc, char *args[]) {
                   da_thua = false;
                   game.sinhSoMoi();
                   game.sinhSoMoi();
+                  SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
               }
           }
         }
