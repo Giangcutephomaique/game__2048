@@ -54,29 +54,30 @@ Mô hình miêu tả quá trình vận hành vòng đời dữ liệu của game
 graph TD
     A([Bật trò chơi]) --> N[Khởi tạo bảng 4x4 bằng 0]
     N --> B[Sinh 2 khối số ngẫu nhiên ban đầu]
-    B --> C{Chờ thao tác}
+    B --> H[Vẽ cập nhật lên giao diện]
+    H --> C{Chờ thao tác phím / chuột}
 
     C -->|Nút Chơi Mới| P{Hộp thoại Xác nhận}
-    P -->|Hủy| C
+    P -->|Hủy| H
     P -->|Đồng ý| N
 
     C -->|Phím điều hướng| D[Dồn các ô cùng về 1 hướng]
     D --> E{Có khối liền kề đồng giá trị?}
-    E -->|Có| F[Cộng gộp thành ô x2, lưu điểm]
+    E -->|Có| F[Cộng gộp ô x2, lưu điểm]
     E -->|Không| G[Cập nhật tọa độ mới]
     F --> G
-    G --> H[Vẽ lại giao diện lưới]
     
-    H --> I{Bảng có thay đổi so với mảng cũ?}
-    I -->|Không| C
+    G --> I{Bảng có sự dịch chuyển?}
+    I -->|Không| H
     I -->|Có| J[Sinh ngẫu nhiên 1 khối số mới]
+    
     J --> K{Còn nước đi hợp lệ?}
-    K -->|Còn| C
-    K -->|Hết| L[Màn hình Game Over]
+    K -->|Còn| H
+    K -->|Hết| L[Phủ sương mù rèm Game Over]
     
     L --> M{Hộp thoại Tổng kết}
     M -->|Chơi lại| N
-    M -->|Thoát bản| O([Đóng Game])
+    M -->|Thoát| O([Đóng Game])
 ```
 
 ## 5. Ví dụ xử lý (Input/Output thuật toán gộp)
