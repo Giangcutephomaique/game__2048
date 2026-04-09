@@ -21,6 +21,8 @@ Dự án phát triển trò chơi 2048 viết bằng ngôn ngữ C++. Phần gia
 - Nhận luồng điều khiển qua bàn phím (Phím mũi tên hoặc W, A, S, D) để dồn các ô số.
 - Cập nhật tự động ma trận lưới thông qua cơ chế gộp ô cùng giá trị.
 - Hiển thị điểm số hiện tại và điểm kỷ lục chơi.
+- Bật hộp thoại xác nhận khi dùng nút Chơi Mới để tránh mất dữ liệu tiến trình do bấm nhầm.
+- Hiển thị hộp thoại tổng kết khi kết thúc ván (Game Over), cung cấp tùy chọn chơi lại hoặc thoát chương trình.
 - Cấu trúc source code tổ chức minh bạch có tách rời phần logic và phần giao diện.
 
 ---
@@ -50,9 +52,13 @@ Mô hình miêu tả quá trình vận hành vòng đời dữ liệu của game
 
 ```mermaid
 graph TD
-    A[Khởi tạo mảng lưới 4x4 bằng 0] --> B[Sinh ngẫu nhiên 2 số đầu tiên vào ô trống]
-    B --> C{Chờ người chơi phản hồi bàn phím}
-    C -->|Xác nhận điều hướng | D[Dịch chuyển tất cả ô khác 0 về đầu ranh giới]
+    A[Bật trò chơi] --> N[Khởi tạo lại bảng 4x4 về con số 0]
+    N --> B[Sinh ngẫu nhiên 2 số đầu tiên vào ô trống]
+    B --> C{Chờ người chơi phản hồi}
+    C -->|Bấm nút Chơi Mới| P[Hiển thị hộp thoại xác nhận hủy tiến trình hiện tại]
+    P -->|Hủy| C
+    P -->|Đồng ý thao tác| N
+    C -->|Bấm phím điều hướng| D[Dịch chuyển tất cả ô khác 0 về đầu ranh giới]
     D --> E{Có hai khối sát nhau đồng giá trị?}
     E -->|Có| F[Cộng gộp hai khối, thay bằng giá trị x2, tích lũy điểm]
     E -->|Không| G[Cập nhật định vị tọa độ mới]
@@ -63,7 +69,10 @@ graph TD
     I -->|Không| C
     J --> K{Bảng còn duy trì được nước chạy tiếp theo không?}
     K -->|Còn| C
-    K -->|Không| L[Kích hoạt trạng thái Thua, Game Over]
+    K -->|Không| L[Kích hoạt màn hình Thua và hiển thị hộp thoại tổng kết]
+    L --> M{Quyết định của người chơi?}
+    M -->|Ấn Chơi lại| N
+    M -->|Ấn Thoát| O[Đóng hoàn toàn trò chơi]
 ```
 
 ## 5. Ví dụ xử lý (Input/Output thuật toán gộp)
