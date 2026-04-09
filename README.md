@@ -57,8 +57,6 @@ flowchart TD
     B --> H[Vẽ giao diện lên cửa sổ]
     H --> C{Chờ sự kiện\nphím hoặc chuột}
 
-    C -- Nhấn X đóng cửa sổ --> O([Thoát game])
-
     C -- Nhấn nút Chơi Mới --> P{Hộp thoại\nxác nhận}
     P -- Hủy --> H
     P -- Bắt đầu --> N
@@ -66,13 +64,15 @@ flowchart TD
     C -- Phím điều hướng\nvà chưa thua --> D["Gọi diChuyen():\ndồn ô + gộp cặp bằng nhau\n+ cộng điểm"]
     D --> I{Bảng có\nthay đổi?}
     I -- Có --> J[Sinh 1 số mới\nvào ô trống]
-    I -- Không --> K
     J --> K{Còn nước đi\nhợp lệ?}
+    I -- Không --> K
     K -- Còn --> H
     K -- Hết --> L["Gán trạng thái thua\nvà vẽ lớp phủ Game Over"]
     L --> M{Hộp thoại\ntổng kết}
     M -- Chơi lại --> N
-    M -- Thoát --> O
+    M -- Thoát --> O([Thoát game])
+
+    C -- Nhấn X đóng cửa sổ --> O
 ```
 
 ## 5. Ví dụ xử lý (Input/Output thuật toán gộp)
