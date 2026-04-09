@@ -1,8 +1,8 @@
 # Dự án Game 2048 (C++)
 
-**Môn học:** Lập trình nâng cao
-**Mã LHP:** INT2215 21
-**Nhóm:** 05
+- **Môn học:** Lập trình nâng cao
+- **Mã LHP:** INT2215 21
+- **Nhóm:** 05
 
 Dự án này là game 2048 viết bằng C++. Phần logic xử lý bằng C++ cơ bản. Phần giao diện đồ họa dùng thư viện SDL2.
 
@@ -85,4 +85,4 @@ make
 ./Game2048
 ```
 
-> **Lưu ý:** Nếu bạn muốn tự chạy kiểm tra unit test hoặc dọn dẹp thư mục: dùng lệnh `make test` hoặc `make clean`.
+> **Lưu ý:** Nếu muốn tự chạy kiểm tra unit test hoặc dọn dẹp thư mục: dùng lệnh `make test` hoặc `make clean`.
