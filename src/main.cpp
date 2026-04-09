@@ -328,38 +328,37 @@ int main(int argc, char *args[]) {
       if (su_kien.type == SDL_QUIT) {
         dang_choi = false;
 
-      } else if (su_kien.type == SDL_MOUSEBUTTONDOWN) {
+      } else if (su_kien.type == SDL_MOUSEBUTTONUP) {
         int chuot_x = su_kien.button.x;
         int chuot_y = su_kien.button.y;
         if (chuot_x >= nut_choi_moi.x &&
             chuot_x <= nut_choi_moi.x + nut_choi_moi.w &&
             chuot_y >= nut_choi_moi.y &&
             chuot_y <= nut_choi_moi.y + nut_choi_moi.h) {
-            
+
           // Khởi tạo các nút và hộp thoại popup
           const SDL_MessageBoxButtonData cac_nut[] = {
-              { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Hủy" },
-              { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Bắt đầu trò chơi mới" }
-          };
+              {SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Hủy"},
+              {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Bắt đầu"}};
           const SDL_MessageBoxData hop_thoai = {
               SDL_MESSAGEBOX_WARNING,
               cua_so,
               "Trò chơi mới",
-              "Bạn có chắc muốn bắt đầu trò chơi mới không? Mọi tiến trình sẽ bị mất.",
+              "Bạn có chắc muốn bắt đầu trò chơi mới không? Mọi tiến trình sẽ "
+              "bị mất.",
               2,
               cac_nut,
-              NULL
-          };
-          
+              NULL};
+
           int nut_duoc_chon;
           // Hiển thị hộp thoại và khởi tạo lại game nếu chọn Bắt đầu
           if (SDL_ShowMessageBox(&hop_thoai, &nut_duoc_chon) >= 0) {
-              if (nut_duoc_chon == 1) {
-                  game.khoiTaoLaiBang();
-                  da_thua = false;
-                  game.sinhSoMoi();
-                  game.sinhSoMoi();
-              }
+            if (nut_duoc_chon == 1) {
+              game.khoiTaoLaiBang();
+              da_thua = false;
+              game.sinhSoMoi();
+              game.sinhSoMoi();
+            }
           }
         }
 
