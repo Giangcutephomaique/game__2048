@@ -1,5 +1,9 @@
 # Dự án Game 2048 (C++)
 
+**Môn học:** Lập trình nâng cao
+**Mã LHP:** INT2215 21
+**Nhóm:** 05
+
 Dự án này là game 2048 viết bằng C++. Phần logic xử lý bằng C++ cơ bản. Phần giao diện đồ họa dùng thư viện SDL2.
 
 ## Chức năng chính
@@ -59,16 +63,26 @@ g++ tests/test_logic.cpp src/logic.cpp -o run_test.exe
 
 ## Chạy game đầy đủ (có giao diện)
 
-Game cần cài thư viện SDL2, SDL2_gfx, SDL2_ttf trước khi build.
+Game cần được cài thư viện SDL2, SDL2_gfx, SDL2_ttf trước. Dự án đã có sẵn `Makefile` rất dễ dàng sử dụng.
 
-**Windows (MinGW):**
+Mở Terminal / Command Prompt tại thư mục chứa dự án và chạy các lệnh dưới đây:
+
+**Trên Windows (dùng MinGW/MSYS2):**
 ```bash
-g++ src/main.cpp src/logic.cpp -o Game2048.exe -I <đường dẫn thư mục include SDL2> -L <đường dẫn thư mục lib SDL2> -lmingw32 -lSDL2main -lSDL2 -lSDL2_gfx -lSDL2_ttf
-./Game2048.exe
+# Lệnh build thành file exe
+mingw32-make
+
+# Lệnh khởi chạy
+.\Game2048.exe
 ```
 
-**Linux / macOS:**
+**Trên Linux / macOS:**
 ```bash
-g++ src/main.cpp src/logic.cpp -o Game2048 `pkg-config --cflags --libs sdl2 SDL2_gfx SDL2_ttf`
+# Lệnh build
+make
+
+# Lệnh khởi chạy
 ./Game2048
 ```
+
+> **Lưu ý:** Nếu bạn muốn tự chạy kiểm tra unit test hoặc dọn dẹp thư mục: dùng lệnh `make test` hoặc `make clean`.
