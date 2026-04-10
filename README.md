@@ -17,13 +17,13 @@ Dự án phát triển trò chơi 2048 viết bằng ngôn ngữ C++. Phần gia
 
 ## 2. Chức năng chính
 
-- Khởi tạo bảng lưới 4x4 hiển thị tự động.
-- Nhận luồng điều khiển qua bàn phím (Phím mũi tên hoặc W, A, S, D) để dồn các ô số.
-- Cập nhật tự động ma trận lưới thông qua cơ chế gộp ô cùng giá trị.
-- Hiển thị điểm số hiện tại và điểm kỷ lục chơi.
-- Bật hộp thoại xác nhận khi dùng nút Chơi Mới để tránh mất dữ liệu tiến trình do bấm nhầm.
-- Hiển thị hộp thoại tổng kết khi kết thúc ván (Game Over), cung cấp tùy chọn chơi lại hoặc thoát chương trình.
-- Cấu trúc source code tổ chức minh bạch có tách rời phần logic và phần giao diện.
+- Khởi tạo bảng 4x4 và hiển thị lên cửa sổ.
+- Nhận phím bấm từ bàn phím (phím mũi tên hoặc W, A, S, D) để dồn các ô số.
+- Gộp 2 ô cùng giá trị khi nằm liền kề theo hướng di chuyển và cộng điểm.
+- Hiển thị điểm số hiện tại và điểm kỷ lục.
+- Hiển thị hộp thoại xác nhận khi bấm nút Chơi Mới để tránh mất tiến trình do bấm nhầm.
+- Hiển thị hộp thoại tổng kết khi thua (Game Over), cho phép chơi lại hoặc thoát.
+- Tách rời phần logic và phần giao diện thành các file riêng.
 
 ---
 
@@ -31,24 +31,24 @@ Dự án phát triển trò chơi 2048 viết bằng ngôn ngữ C++. Phần gia
 
 ```text
 Game 2048/
-├── build/                 # Thư mục chứa file thực thi (.exe) sau khi biên dịch
-│   ├── Game2048.exe       # Tệp khởi chạy trò chơi
-│   └── run_test.exe       # Tệp kiểm thử bộ điều hướng logic
-├── src/                   # Thư mục chứa mã nguồn chính của dự án 
-│   ├── logic.h            # Khai báo cấu trúc biến và các hàm logic nội tại
-│   ├── logic.cpp          # Triển khai thuật toán sinh số, dịch chuyển và quy đổi logic
-│   └── main.cpp           # Xử lý vòng lặp đồ họa bằng SDL2 và nhận diện phím bấm
-├── tests/                 # Thư mục chứa các script độc lập kiểm thử Unit Test
-│   └── test_logic.cpp     # File kiểm tra tính chính xác của hàm xử lý bảng ô số
-├── Makefile               # File cấu hình lệnh tự động môi trường biên dịch hệ thống
-└── README.md              # Tài liệu mô tả cấu trúc và hoạt động của dự án
+├── build/                 # Thư mục chứa file .exe sau khi biên dịch
+│   ├── Game2048.exe       # File chạy game
+│   └── run_test.exe       # File chạy unit test
+├── src/                   # Thư mục chứa mã nguồn chính
+│   ├── logic.h            # Khai báo class Game2048 và các hàm xử lý logic
+│   ├── logic.cpp          # Xử lý sinh số, di chuyển ô, gộp số, tính điểm
+│   └── main.cpp           # Vòng lặp game SDL2, xử lý sự kiện và vẽ giao diện
+├── tests/                 # Thư mục chứa file unit test
+│   └── test_logic.cpp     # Test các hàm trong class Game2048
+├── Makefile               # Cấu hình lệnh biên dịch (build, run, test, clean)
+└── README.md              # Tài liệu mô tả dự án
 ```
 
 ---
 
 ## 4. Sơ đồ luồng xử lý
 
-Mô hình miêu tả quá trình vận hành vòng đời dữ liệu của game:
+Sơ đồ mô tả luồng xử lý chính của game:
 
 ```mermaid
 flowchart TD
@@ -77,17 +77,16 @@ flowchart TD
 
 ## 5. Ví dụ xử lý (Input/Output thuật toán gộp)
 
-Quá trình gộp được tính thông qua input trực tiếp. Dưới đây là ví dụ đường trượt cơ bản.
-- Biến mảng đầu vào: `[2, 2, 4, 0]`
-- Điều kiện Input: Nhập dịch chuyển sang hướng bên TRÁI.
-- Output sinh ra: 2 ô giá trị `2` dồn lại gộp thành `4`.
-- Kết quả cập nhật: `[4, 4, 0, 0]`
+Ví dụ gộp ô khi di chuyển sang trái:
+- Mảng đầu vào: `[2, 2, 4, 0]`
+- Hướng di chuyển: TRÁI
+- Kết quả: 2 ô giá trị `2` gộp thành `4` → `[4, 4, 0, 0]`
 
 ---
 
 ## 6. Hướng dẫn cài đặt và biên dịch
 
-Hệ thống máy tính cần cấu hình trình biên dịch C++ (`gcc`, `g++`) và chương trình `make`. Dự án yêu cầu liên kết thư viện đồ họa `SDL2`, `SDL2_gfx` và `SDL2_ttf`.
+Yêu cầu: trình biên dịch C++ (`gcc`, `g++`) và `make`. Dự án cần thư viện `SDL2`, `SDL2_gfx` và `SDL2_ttf`.
 
 ### Trên hệ điều hành Windows
 Mở Terminal hoặc Command Prompt tại thư mục chứa dự án.
@@ -115,12 +114,10 @@ make
 
 ---
 
-## 7. Chạy Unit Test và Dọn dẹp rác bộ nhớ
+## 7. Chạy Unit Test và dọn dẹp
 
-Dành cho môi trường theo dõi dữ liệu không thông qua đồ hoạ:
-
-**Chạy kiểm thử logic độc lập:**
-Phần test code kiểm tra sự độc lập của thuật toán nằm tại `tests/test_logic.cpp`.
+**Chạy unit test:**
+File test nằm tại `tests/test_logic.cpp`, kiểm tra logic game độc lập (không cần SDL2).
 ```bash
 # Đối với Windows
 mingw32-make test
@@ -129,7 +126,7 @@ mingw32-make test
 make test
 ```
 
-**Xoá tệp thực thi kết quả lưu lại từ build cũ:**
+**Xóa file .exe từ build cũ:**
 ```bash
 # Đối với Windows
 mingw32-make clean
