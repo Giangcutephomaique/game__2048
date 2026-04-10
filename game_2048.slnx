@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="../../../../../dev/SDL2_gfx/SDL2_gfx/SDL2_gfxPrimitives.c" />
+  </Folder>
+  <Project Path="game_2048/game_2048.vcxproj" Id="2c4f4506-3e03-457c-a18a-fc4ade822856" />
+</Solution>
