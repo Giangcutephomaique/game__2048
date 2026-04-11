@@ -193,14 +193,11 @@ sudo apt install g++ make libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev
 
 **Bước 2: Chuẩn bị font**
 
-Game đọc font tại `assets/font.ttf`. Tạo thư mục `assets/` và sao chép font vào:
-```bash
-mkdir -p assets
-cp /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf assets/font.ttf
-```
-Nếu chưa có Liberation fonts, cài trước rồi chạy lại lệnh trên:
+Game đọc font tại `assets/font.ttf`. Cài font, tạo thư mục `assets/` và sao chép font vào:
 ```bash
 sudo apt install fonts-liberation
+mkdir -p assets
+cp /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf assets/font.ttf
 ```
 
 **Bước 3: Biên dịch và chạy game**
