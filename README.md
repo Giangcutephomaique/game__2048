@@ -86,29 +86,80 @@ Ví dụ gộp ô khi di chuyển sang trái:
 
 ## 6. Hướng dẫn cài đặt và biên dịch
 
-Yêu cầu: trình biên dịch C++ (`gcc`, `g++`) và `make`. Dự án cần thư viện `SDL2`, `SDL2_gfx` và `SDL2_ttf`.
+Dự án cần: trình biên dịch `g++`, lệnh `make`, và 3 thư viện `SDL2`, `SDL2_gfx`, `SDL2_ttf`.
+
+---
 
 ### Trên hệ điều hành Windows
-Mở Terminal hoặc Command Prompt tại thư mục chứa dự án.
 
-**Bước 1: Biên dịch chương trình**
+Dự án dùng **MSYS2** để cung cấp `g++`, `make` và các thư viện SDL2 trên Windows.
+
+**Bước 1: Tải và cài đặt MSYS2**
+
+Tải bộ cài tại: https://www.msys2.org/
+
+Chạy file `.exe` vừa tải, cài vào thư mục mặc định `C:\msys64`.
+
+**Bước 2: Mở terminal MSYS2 UCRT64**
+
+Sau khi cài xong, mở **MSYS2 UCRT64** từ Start Menu (không dùng MINGW64 hay MSYS2).
+
+**Bước 3: Cài g++ và make**
 ```bash
-mingw32-make
+pacman -S mingw-w64-ucrt-x86_64-gcc
+pacman -S mingw-w64-ucrt-x86_64-make
 ```
 
-**Bước 2: Khởi chạy trò chơi**
+**Bước 4: Cài 3 thư viện SDL2**
 ```bash
+pacman -S mingw-w64-ucrt-x86_64-SDL2
+pacman -S mingw-w64-ucrt-x86_64-SDL2_gfx
+pacman -S mingw-w64-ucrt-x86_64-SDL2_ttf
+```
+
+**Bước 5: Thêm đường dẫn vào PATH**
+
+Thêm `C:\msys64\ucrt64\bin` vào biến môi trường PATH của Windows để dùng `g++` và `mingw32-make` từ terminal bất kỳ.
+
+**Bước 6: Biên dịch và chạy game**
+
+Mở terminal tại thư mục dự án, chạy lần lượt:
+```bash
+mingw32-make
 .\build\Game2048.exe
 ```
 
-### Trên hệ điều hành macOS / Linux
-**Bước 1: Biên dịch chương trình**
+---
+
+### Trên hệ điều hành macOS
+
+**Bước 1: Cài Homebrew** (nếu chưa có)
+
+Xem hướng dẫn tại: https://brew.sh/
+
+**Bước 2: Cài 3 thư viện SDL2**
 ```bash
-make
+brew install sdl2 sdl2_gfx sdl2_ttf
 ```
 
-**Bước 2: Khởi chạy trò chơi**
+**Bước 3: Biên dịch và chạy game**
 ```bash
+make
+./build/Game2048
+```
+
+---
+
+### Trên hệ điều hành Linux (Ubuntu / Debian)
+
+**Bước 1: Cài g++, make và 3 thư viện SDL2**
+```bash
+sudo apt install g++ make libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev
+```
+
+**Bước 2: Biên dịch và chạy game**
+```bash
+make
 ./build/Game2048
 ```
 
