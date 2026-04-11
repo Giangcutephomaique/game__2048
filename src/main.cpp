@@ -7,8 +7,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <SDL2/SDL_ttf.h>
+#include <ctime>
 #include <iostream>
 #include <string>
+
 
 using namespace std;
 
@@ -97,18 +99,27 @@ void veChuCanGiua(SDL_Renderer *renderer, TTF_Font *font, string noi_dung,
   if (noi_dung == "")
     return;
 
+  // Bước 1: chuyển chuỗi thành ảnh bitmap
+  // .c_str() đổi string sang dạng ký tự mà SDL2 đọc được
   SDL_Surface *surface =
       TTF_RenderUTF8_Blended(font, noi_dung.c_str(), mau_chu);
   if (!surface)
     return;
 
+  // Bước 2: chuyển ảnh bitmap thành texture để SDL2 vẽ lên cửa sổ
   SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 
+  // surface->w và surface->h là chiều rộng/cao thực tế của chữ sau khi render
   int x = khung.x + (khung.w - surface->w) / 2;
   int y = khung.y + (khung.h - surface->h) / 2;
   SDL_Rect vung_chu = {x, y, surface->w, surface->h};
 
+  // Bước 3: vẽ texture lên cửa sổ
+  // NULL: vẽ toàn bộ texture, không cắt bớt
+  // &vung_chu: địa chỉ của vùng đích để SDL2 biết vẽ ở đâu
   SDL_RenderCopy(renderer, texture, NULL, &vung_chu);
+
+  // Bước 4: xóa bộ nhớ thủ công vì SDL2 không tự giải phóng
   SDL_FreeSurface(surface);
   SDL_DestroyTexture(texture);
 }
@@ -123,14 +134,24 @@ void veChu(SDL_Renderer *renderer, TTF_Font *font, string noi_dung, int x,
   if (noi_dung == "")
     return;
 
+  // Bước 1: chuyển chuỗi thành ảnh bitmap
   SDL_Surface *surface =
       TTF_RenderUTF8_Blended(font, noi_dung.c_str(), mau_chu);
   if (!surface)
     return;
 
+  // Bước 2: chuyển ảnh bitmap thành texture để SDL2 vẽ lên cửa sổ
   SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+  // surface->w và surface->h là chiều rộng/cao thực tế của chữ
   SDL_Rect vung_chu = {x, y, surface->w, surface->h};
+
+  // Bước 3: vẽ texture lên cửa sổ tại tọa độ (x, y)
+  // NULL: vẽ toàn bộ texture, không cắt bớt
+  // &vung_chu: địa chỉ của vùng đích để SDL2 biết vẽ ở đâu
   SDL_RenderCopy(renderer, texture, NULL, &vung_chu);
+
+  // Bước 4: xóa bộ nhớ thủ công vì SDL2 không tự giải phóng
   SDL_FreeSurface(surface);
   SDL_DestroyTexture(texture);
 }
@@ -179,11 +200,9 @@ void vePhanTieuDe(SDL_Renderer *renderer, TTF_Font *font_tieu_de,
  * Mục đích: Vẽ khung điểm hiện tại và khung kỷ lục.
  * Logic xử lý: Cập nhật điểm cao nhất, vẽ 2 khung hiển thị điểm và kỷ lục.
  */
-void veKhungDiemVaKyLuc(SDL_Renderer *renderer, TTF_Font *font_nho,
-                        Game2048 &game) {
-  int diem_hien_tai = game.layDiemSo();
-  if (diem_hien_tai > diem_cao_nhat) {
-    diem_cao_nhat = diem_hien_tai;
+void veKhungDiemVaKyLuc(SDL_Renderer *renderer, TTF_Font *font_nho) {
+  if (diem_so > diem_cao_nhat) {
+    diem_cao_nhat = diem_so;
   }
 
   int chieu_rong_khung = 80;
@@ -212,7 +231,7 @@ void veKhungDiemVaKyLuc(SDL_Renderer *renderer, TTF_Font *font_nho,
   SDL_Rect vung_so_ky_luc = {khung_ky_luc.x, khung_ky_luc.y + 25,
                              khung_ky_luc.w, 25};
 
-  veChuCanGiua(renderer, font_nho, to_string(diem_hien_tai), vung_so_diem,
+  veChuCanGiua(renderer, font_nho, to_string(diem_so), vung_so_diem,
                taoMau(255, 255, 255, 255));
   veChuCanGiua(renderer, font_nho, to_string(diem_cao_nhat), vung_so_ky_luc,
                taoMau(255, 255, 255, 255));
@@ -222,7 +241,7 @@ void veKhungDiemVaKyLuc(SDL_Renderer *renderer, TTF_Font *font_nho,
  * Mục đích: Vẽ nền bảng và 16 ô số 4x4.
  * Logic xử lý: Vẽ khung nền, sau đó vẽ từng ô theo giá trị từ logic game.
  */
-void veBangGame(SDL_Renderer *renderer, TTF_Font *font_o, Game2048 &game) {
+void veBangGame(SDL_Renderer *renderer, TTF_Font *font_o) {
   int kich_thuoc_bang = 4 * KICH_THUOC_O + 5 * KHOANG_CACH_O;
   SDL_Rect vung_nen_bang = {LE_TRAI, LE_TREN, kich_thuoc_bang, kich_thuoc_bang};
   roundedBoxRGBA(renderer, vung_nen_bang.x, vung_nen_bang.y,
@@ -233,7 +252,7 @@ void veBangGame(SDL_Renderer *renderer, TTF_Font *font_o, Game2048 &game) {
   // Vẽ từng ô trong bảng 4x4
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      int gia_tri = game.layGiaTriTaiO(i, j);
+      int gia_tri = bang_o[i][j];
       veMotO(renderer, font_o, i, j, gia_tri);
     }
   }
@@ -241,8 +260,7 @@ void veBangGame(SDL_Renderer *renderer, TTF_Font *font_o, Game2048 &game) {
 
 /*
  * Mục đích: Vẽ màn hình thua (lớp phủ mờ + chữ "Game Over!").
- * Logic xử lý: Vẽ lớp phủ bán trong suốt lên bảng, hiển thị chữ "Game
- * Over!" căn giữa.
+ * Logic xử lý: Vẽ lớp phủ mờ lên bảng, hiển thị chữ "Game Over!" căn giữa.
  */
 void veManHinhThua(SDL_Renderer *renderer, TTF_Font *font_tieu_de) {
   int kich_thuoc_bang = 4 * KICH_THUOC_O + 5 * KHOANG_CACH_O;
@@ -266,15 +284,15 @@ void veManHinhThua(SDL_Renderer *renderer, TTF_Font *font_tieu_de) {
  * có.
  */
 void veGiaoDien(SDL_Renderer *renderer, TTF_Font *font_o,
-                TTF_Font *font_tieu_de, TTF_Font *font_nho, Game2048 &game) {
+                TTF_Font *font_tieu_de, TTF_Font *font_nho) {
   // Xóa màn hình cũ
   SDL_SetRenderDrawColor(renderer, 24, 24, 36, 255);
   SDL_RenderClear(renderer);
 
   // Vẽ từng phần giao diện
   vePhanTieuDe(renderer, font_tieu_de, font_nho);
-  veKhungDiemVaKyLuc(renderer, font_nho, game);
-  veBangGame(renderer, font_o, game);
+  veKhungDiemVaKyLuc(renderer, font_nho);
+  veBangGame(renderer, font_o);
 
   // Vẽ màn hình thua nếu đã thua
   if (da_thua) {
@@ -292,10 +310,9 @@ void veGiaoDien(SDL_Renderer *renderer, TTF_Font *font_o,
  */
 int main(int argc, char *args[]) {
   srand(time(0));
-
-  Game2048 game;
-  game.sinhSoMoi();
-  game.sinhSoMoi();
+  khoiTaoLaiBang();
+  sinhSoMoi();
+  sinhSoMoi();
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
     return 1;
@@ -320,7 +337,7 @@ int main(int argc, char *args[]) {
 
   SDL_Event su_kien;
 
-  // Duy trì trạng thái sống của trò chơi theo thời gian thực
+  // Vòng lặp chính: xử lý sự kiện và vẽ giao diện cho đến khi thoát
   while (dang_choi) {
 
     // Xử lý sự kiện từ bàn phím và chuột
@@ -336,7 +353,7 @@ int main(int argc, char *args[]) {
             chuot_y >= nut_choi_moi.y &&
             chuot_y <= nut_choi_moi.y + nut_choi_moi.h) {
 
-          // Khởi tạo các nút và hộp thoại popup
+          // Tạo dữ liệu cho 2 nút trong hộp thoại xác nhận
           const SDL_MessageBoxButtonData cac_nut[] = {
               {SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Hủy"},
               {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Bắt đầu"}};
@@ -344,19 +361,21 @@ int main(int argc, char *args[]) {
               SDL_MESSAGEBOX_WARNING,
               cua_so,
               "Xác nhận",
-              "Bảng số hiện tại sẽ bị xóa.\nBạn có chắc chắn muốn bắt đầu trò chơi mới không?",
+              "Bảng số hiện tại sẽ bị xóa.\nBạn có chắc chắn muốn bắt đầu trò "
+              "chơi mới không?",
               2,
               cac_nut,
               NULL};
 
           int nut_duoc_chon;
-          // Hiển thị hộp thoại và khởi tạo lại game nếu chọn Bắt đầu
+          // Hiển thị hộp thoại xác nhận
           if (SDL_ShowMessageBox(&hop_thoai, &nut_duoc_chon) >= 0) {
+            // Nếu chọn Bắt đầu thì khởi tạo lại game
             if (nut_duoc_chon == 1) {
-              game.khoiTaoLaiBang();
+              khoiTaoLaiBang();
               da_thua = false;
-              game.sinhSoMoi();
-              game.sinhSoMoi();
+              sinhSoMoi();
+              sinhSoMoi();
               SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
             }
           }
@@ -368,66 +387,65 @@ int main(int argc, char *args[]) {
         switch (su_kien.key.keysym.sym) {
         case SDLK_UP:
         case SDLK_w:
-          da_di_chuyen = game.diChuyenLen();
+          da_di_chuyen = diChuyenLen();
           break;
         case SDLK_DOWN:
         case SDLK_s:
-          da_di_chuyen = game.diChuyenXuong();
+          da_di_chuyen = diChuyenXuong();
           break;
         case SDLK_LEFT:
         case SDLK_a:
-          da_di_chuyen = game.diChuyenTrai();
+          da_di_chuyen = diChuyenTrai();
           break;
         case SDLK_RIGHT:
         case SDLK_d:
-          da_di_chuyen = game.diChuyenPhai();
+          da_di_chuyen = diChuyenPhai();
           break;
         }
 
         if (da_di_chuyen) {
-          game.sinhSoMoi();
+          sinhSoMoi();
         }
 
-        if (game.kiemTraCoTheDiChuyen() == false && !da_thua) {
+        if (kiemTraCoTheDiChuyen() == false && !da_thua) {
           da_thua = true;
-          
-          // Cập nhật giao diện màn hình thua ngay trước khi bật hộp thoại
-          veGiaoDien(renderer, font_o, font_tieu_de, font_nho, game);
-          
+
+          // Vẽ lại toàn bộ giao diện (có màn hình thua) trước khi bật hộp thoại
+          veGiaoDien(renderer, font_o, font_tieu_de, font_nho);
+
           const SDL_MessageBoxButtonData cac_nut[] = {
-              { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Thoát" },
-              { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Chơi lại" }
-          };
-          
-          string thong_bao = "Không còn nước đi nào! Điểm của bạn là: " + to_string(game.layDiemSo()) + "\nBạn có muốn chơi lại không?";
-          const SDL_MessageBoxData hop_thoai = {
-              SDL_MESSAGEBOX_INFORMATION,
-              cua_so,
-              "Trò chơi kết thúc",
-              thong_bao.c_str(),
-              2,
-              cac_nut,
-              NULL
-          };
-          
+              {SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Thoát"},
+              {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Chơi lại"}};
+
+          string thong_bao =
+              "Không còn nước đi nào! Điểm của bạn là: " + to_string(diem_so) +
+              "\nBạn có muốn chơi lại không?";
+          const SDL_MessageBoxData hop_thoai = {SDL_MESSAGEBOX_INFORMATION,
+                                                cua_so,
+                                                "Trò chơi kết thúc",
+                                                thong_bao.c_str(),
+                                                2,
+                                                cac_nut,
+                                                NULL};
+
           int nut_duoc_chon;
           // Hiển thị hộp thoại khi thua cuộc
           if (SDL_ShowMessageBox(&hop_thoai, &nut_duoc_chon) >= 0) {
-              if (nut_duoc_chon == 1) {
-                  game.khoiTaoLaiBang();
-                  da_thua = false;
-                  game.sinhSoMoi();
-                  game.sinhSoMoi();
-                  SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
-              } else {
-                  dang_choi = false; // Thoát nếu không chọn chơi lại
-              }
+            if (nut_duoc_chon == 1) {
+              khoiTaoLaiBang();
+              da_thua = false;
+              sinhSoMoi();
+              sinhSoMoi();
+              SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+            } else {
+              dang_choi = false; // Thoát nếu không chọn chơi lại
+            }
           }
         }
       }
     }
 
-    veGiaoDien(renderer, font_o, font_tieu_de, font_nho, game);
+    veGiaoDien(renderer, font_o, font_tieu_de, font_nho);
     SDL_Delay(16);
   }
 

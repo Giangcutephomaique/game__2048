@@ -35,11 +35,11 @@ Game 2048/
 │   ├── Game2048.exe       # File chạy game
 │   └── run_test.exe       # File chạy unit test
 ├── src/                   # Thư mục chứa mã nguồn chính
-│   ├── logic.h            # Khai báo class Game2048 và các hàm xử lý logic
+│   ├── logic.h            # Khai báo biến toàn cục và các hàm xử lý logic
 │   ├── logic.cpp          # Xử lý sinh số, di chuyển ô, gộp số, tính điểm
 │   └── main.cpp           # Vòng lặp game SDL2, xử lý sự kiện và vẽ giao diện
 ├── tests/                 # Thư mục chứa file unit test
-│   └── test_logic.cpp     # Test các hàm trong class Game2048
+│   └── test_logic.cpp     # Test các hàm xử lý logic game
 ├── Makefile               # Cấu hình lệnh biên dịch (build, run, test, clean)
 └── README.md              # Tài liệu mô tả dự án
 ```

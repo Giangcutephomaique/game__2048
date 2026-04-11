@@ -1,23 +1,18 @@
-﻿/*
+/*
  * Mục đích: Xử lý logic game 2048.
- * Chức năng: Quản lý bảng số 4x4, di chuyển ô, gộp số, tính điểm.
+ * Chức năng: Xử lý bảng số 4x4, di chuyển ô, gộp số, tính điểm.
  */
 
 #include "logic.h"
 
-/*
- * Mục đích: Khởi tạo game.
- * Logic xử lý: Gọi khoiTaoLaiBang() để đặt bảng về trạng thái ban đầu.
- */
-Game2048::Game2048() {
-    khoiTaoLaiBang();
-}
+int bang_o[4][4];
+int diem_so;
 
 /*
  * Mục đích: Đặt lại bảng về trạng thái ban đầu.
  * Logic xử lý: Gán tất cả ô về 0 và đặt điểm về 0.
  */
-void Game2048::khoiTaoLaiBang() {
+void khoiTaoLaiBang() {
     // Gán tất cả ô về 0
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -28,26 +23,10 @@ void Game2048::khoiTaoLaiBang() {
 }
 
 /*
- * Mục đích: Lấy điểm hiện tại.
- * Logic xử lý: Trả về biến diem_so.
- */
-int Game2048::layDiemSo() {
-    return diem_so;
-}
-
-/*
- * Mục đích: Lấy giá trị tại một ô trong bảng.
- * Logic xử lý: Trả về bang_o[hang][cot].
- */
-int Game2048::layGiaTriTaiO(int hang, int cot) {
-    return bang_o[hang][cot];
-}
-
-/*
  * Mục đích: Sinh số 2 hoặc 4 vào một ô trống ngẫu nhiên.
  * Logic xử lý: Tìm tất cả ô có giá trị 0, chọn ngẫu nhiên 1 ô, gán 2 hoặc 4.
  */
-void Game2048::sinhSoMoi() {
+void sinhSoMoi() {
     int hang_o_trong[16];
     int cot_o_trong[16];
     int so_luong_o_trong = 0;
@@ -55,10 +34,10 @@ void Game2048::sinhSoMoi() {
     // Tìm tất cả ô trống trong bảng
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            if (bang_o[i][j] == 0) { 
-                hang_o_trong[so_luong_o_trong] = i; 
-                cot_o_trong[so_luong_o_trong] = j;  
-                so_luong_o_trong++;                 
+            if (bang_o[i][j] == 0) {
+                hang_o_trong[so_luong_o_trong] = i;
+                cot_o_trong[so_luong_o_trong] = j;
+                so_luong_o_trong++;
             }
         }
     }
@@ -80,7 +59,7 @@ void Game2048::sinhSoMoi() {
  * Mục đích: Di chuyển tất cả ô sang trái.
  * Logic xử lý: Với mỗi hàng, dồn số khác 0 sang trái, gộp 2 số liền kề bằng nhau, tính điểm.
  */
-bool Game2048::diChuyenTrai() {
+bool diChuyenTrai() {
     bool co_thay_doi = false;
 
     // Xử lý từng hàng
@@ -99,15 +78,15 @@ bool Game2048::diChuyenTrai() {
         // Gộp 2 số liền kề bằng nhau
         for (int j = 0; j < 3; j++) {
             if (hang_tam[j] == hang_tam[j + 1] && hang_tam[j] != 0) {
-                hang_tam[j] = hang_tam[j] * 2; 
-                diem_so = diem_so + hang_tam[j];    
-                hang_tam[j + 1] = 0;                
+                hang_tam[j] = hang_tam[j] * 2;
+                diem_so = diem_so + hang_tam[j];
+                hang_tam[j + 1] = 0;
             }
         }
 
         int hang_ket_qua[4] = {0, 0, 0, 0};
         vi_tri = 0;
-        
+
         // Dồn lại sau khi gộp, loại bỏ ô trống
         for (int j = 0; j < 4; j++) {
             if (hang_tam[j] != 0) {
@@ -118,8 +97,8 @@ bool Game2048::diChuyenTrai() {
 
         // Cập nhật lại bảng, kiểm tra có thay đổi không
         for (int j = 0; j < 4; j++) {
-            if (bang_o[i][j] != hang_ket_qua[j]) { 
-                co_thay_doi = true; 
+            if (bang_o[i][j] != hang_ket_qua[j]) {
+                co_thay_doi = true;
             }
             bang_o[i][j] = hang_ket_qua[j];
         }
@@ -131,16 +110,16 @@ bool Game2048::diChuyenTrai() {
  * Mục đích: Di chuyển tất cả ô sang phải.
  * Logic xử lý: Với mỗi hàng, dồn số khác 0 sang phải, gộp 2 số liền kề bằng nhau, tính điểm.
  */
-bool Game2048::diChuyenPhai() {
+bool diChuyenPhai() {
     bool co_thay_doi = false;
 
     // Xử lý từng hàng
     for (int i = 0; i < 4; i++) {
         int hang_tam[4] = {0, 0, 0, 0};
         int vi_tri = 0;
-        
+
         // Lấy các số khác 0 từ phải sang trái
-        for (int j = 3; j >= 0; j--) { 
+        for (int j = 3; j >= 0; j--) {
             if (bang_o[i][j] != 0) {
                 hang_tam[vi_tri] = bang_o[i][j];
                 vi_tri++;
@@ -158,7 +137,7 @@ bool Game2048::diChuyenPhai() {
 
         int hang_ket_qua[4] = {0, 0, 0, 0};
         vi_tri = 0;
-        
+
         // Dồn lại sau khi gộp, loại bỏ ô trống
         for (int j = 0; j < 4; j++) {
             if (hang_tam[j] != 0) {
@@ -167,8 +146,8 @@ bool Game2048::diChuyenPhai() {
             }
         }
 
-        int vi_tri_ghi = 3; 
-        
+        int vi_tri_ghi = 3;
+
         // Cập nhật lại bảng từ phải sang trái
         for (int j = 0; j < 4; j++) {
             if (bang_o[i][vi_tri_ghi] != hang_ket_qua[j]) {
@@ -185,14 +164,14 @@ bool Game2048::diChuyenPhai() {
  * Mục đích: Di chuyển tất cả ô lên trên.
  * Logic xử lý: Với mỗi cột, dồn số khác 0 lên trên, gộp 2 số liền kề bằng nhau, tính điểm.
  */
-bool Game2048::diChuyenLen() {
+bool diChuyenLen() {
     bool co_thay_doi = false;
 
     // Xử lý từng cột
     for (int j = 0; j < 4; j++) {
         int cot_tam[4] = {0, 0, 0, 0};
         int vi_tri = 0;
-        
+
         // Lấy các số khác 0 từ trên xuống
         for (int i = 0; i < 4; i++) {
             if (bang_o[i][j] != 0) {
@@ -212,7 +191,7 @@ bool Game2048::diChuyenLen() {
 
         int cot_ket_qua[4] = {0, 0, 0, 0};
         vi_tri = 0;
-        
+
         // Dồn lại sau khi gộp, loại bỏ ô trống
         for (int i = 0; i < 4; i++) {
             if (cot_tam[i] != 0) {
@@ -236,14 +215,14 @@ bool Game2048::diChuyenLen() {
  * Mục đích: Di chuyển tất cả ô xuống dưới.
  * Logic xử lý: Với mỗi cột, dồn số khác 0 xuống dưới, gộp 2 số liền kề bằng nhau, tính điểm.
  */
-bool Game2048::diChuyenXuong() {
+bool diChuyenXuong() {
     bool co_thay_doi = false;
 
     // Xử lý từng cột
     for (int j = 0; j < 4; j++) {
         int cot_tam[4] = {0, 0, 0, 0};
         int vi_tri = 0;
-        
+
         // Lấy các số khác 0 từ dưới lên
         for (int i = 3; i >= 0; i--) {
             if (bang_o[i][j] != 0) {
@@ -263,7 +242,7 @@ bool Game2048::diChuyenXuong() {
 
         int cot_ket_qua[4] = {0, 0, 0, 0};
         vi_tri = 0;
-        
+
         // Dồn lại sau khi gộp, loại bỏ ô trống
         for (int i = 0; i < 4; i++) {
             if (cot_tam[i] != 0) {
@@ -273,7 +252,7 @@ bool Game2048::diChuyenXuong() {
         }
 
         int vi_tri_ghi = 3;
-        
+
         // Cập nhật lại bảng từ dưới lên
         for (int i = 0; i < 4; i++) {
             if (bang_o[vi_tri_ghi][j] != cot_ket_qua[i]) {
@@ -290,21 +269,21 @@ bool Game2048::diChuyenXuong() {
  * Mục đích: Kiểm tra còn nước đi hợp lệ hay không.
  * Logic xử lý: Kiểm tra có ô trống không. Nếu không, kiểm tra có 2 ô liền kề bằng nhau không.
  */
-bool Game2048::kiemTraCoTheDiChuyen() {
+bool kiemTraCoTheDiChuyen() {
     // Kiểm tra có ô trống không
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             if (bang_o[i][j] == 0) {
-                return true; 
+                return true;
             }
         }
     }
 
     // Kiểm tra 2 ô liền kề theo hàng ngang có bằng nhau không
     for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 3; j++) { 
+        for (int j = 0; j < 3; j++) {
             if (bang_o[i][j] == bang_o[i][j + 1]) {
-                return true; 
+                return true;
             }
         }
     }
@@ -313,7 +292,7 @@ bool Game2048::kiemTraCoTheDiChuyen() {
     for (int j = 0; j < 4; j++) {
         for (int i = 0; i < 3; i++) {
             if (bang_o[i][j] == bang_o[i + 1][j]) {
-                return true; 
+                return true;
             }
         }
     }

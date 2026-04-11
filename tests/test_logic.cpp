@@ -1,6 +1,6 @@
 /*
  * Mục đích: Test logic game 2048.
- * Chức năng: Kiểm tra các hàm trong class Game2048 có hoạt động đúng không.
+ * Chức năng: Kiểm tra các hàm xử lý logic có hoạt động đúng không.
  */
 
 #include "../src/logic.h"
@@ -12,11 +12,11 @@ using namespace std;
  * Mục đích: Hiển thị bảng 4x4 ra console để kiểm tra.
  * Logic xử lý: Duyệt từng ô trong bảng, in giá trị ra màn hình.
  */
-void inBang(Game2048 &game) {
+void inBang() {
   // Duyệt từng ô trong bảng 4x4 và in giá trị
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      cout << game.layGiaTriTaiO(i, j) << "\t";
+      cout << bang_o[i][j] << "\t";
     }
     cout << endl;
   }
@@ -25,27 +25,27 @@ void inBang(Game2048 &game) {
 
 /*
  * Mục đích: Kiểm tra hàm sinhSoMoi() có sinh đúng 2 số vào bảng trống không.
- * Logic xử lý: Tạo game mới, gọi sinhSoMoi() 2 lần, đếm số ô khác 0 phải
+ * Logic xử lý: Khởi tạo lại bảng, gọi sinhSoMoi() 2 lần, đếm số ô khác 0 phải
  * bằng 2.
  */
 bool testSinhHaiSoMoi() {
-  Game2048 game_test;
+  khoiTaoLaiBang();
 
   cout << "Bang truoc khi sinh so:" << endl;
-  inBang(game_test);
+  inBang();
 
-  game_test.sinhSoMoi();
-  game_test.sinhSoMoi();
+  sinhSoMoi();
+  sinhSoMoi();
 
   cout << "Bang sau khi sinh 2 so ngau nhien:" << endl;
-  inBang(game_test);
+  inBang();
 
   int dem_o_co_so = 0;
 
   // Đếm số ô có giá trị khác 0
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      if (game_test.layGiaTriTaiO(i, j) != 0) {
+      if (bang_o[i][j] != 0) {
         dem_o_co_so++;
       }
     }

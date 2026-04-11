@@ -1,35 +1,24 @@
 /*
- * Mục đích: Khai báo lớp Game2048.
- * Chức năng: Định nghĩa thuộc tính và phương thức của class Game2048.
+ * Mục đích: Khai báo biến toàn cục và các hàm xử lý logic game 2048.
+ * Chức năng: Khai báo bảng số, điểm và các hàm di chuyển, sinh số, kiểm tra.
  */
 
 #ifndef LOGIC_H
 #define LOGIC_H
 
-#include <iostream>
 #include <cstdlib>
-#include <ctime>
 
-class Game2048 {
-private:
-    int bang_o[4][4];
-    int diem_so;
+extern int bang_o[4][4];
+extern int diem_so;
 
-public:
-    Game2048();
-    void khoiTaoLaiBang();
-    
-    int layDiemSo();
-    int layGiaTriTaiO(int hang, int cot);
-    
-    void sinhSoMoi();
-    
-    bool diChuyenTrai();
-    bool diChuyenPhai();
-    bool diChuyenLen();
-    bool diChuyenXuong();
-    
-    bool kiemTraCoTheDiChuyen();
-};
+void khoiTaoLaiBang();
+void sinhSoMoi();
+
+bool diChuyenTrai();
+bool diChuyenPhai();
+bool diChuyenLen();
+bool diChuyenXuong();
+
+bool kiemTraCoTheDiChuyen();
 
 #endif
