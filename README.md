@@ -104,24 +104,35 @@ Chạy file `.exe` vừa tải, cài vào thư mục mặc định `C:\msys64`.
 
 Sau khi cài xong, mở **MSYS2 UCRT64** từ Start Menu (không dùng MINGW64 hay MSYS2).
 
-**Bước 3: Cài g++ và make**
+**Bước 3: Cập nhật package database**
+```bash
+pacman -Syu
+```
+Nếu terminal tự đóng sau khi chạy xong, mở lại MSYS2 UCRT64 rồi chạy tiếp:
+```bash
+pacman -Su
+```
+
+**Bước 4: Cài g++ và make**
 ```bash
 pacman -S mingw-w64-ucrt-x86_64-gcc
 pacman -S mingw-w64-ucrt-x86_64-make
 ```
 
-**Bước 4: Cài 3 thư viện SDL2**
+**Bước 5: Cài 3 thư viện SDL2**
 ```bash
 pacman -S mingw-w64-ucrt-x86_64-SDL2
 pacman -S mingw-w64-ucrt-x86_64-SDL2_gfx
 pacman -S mingw-w64-ucrt-x86_64-SDL2_ttf
 ```
 
-**Bước 5: Thêm đường dẫn vào PATH**
+**Bước 6: Thêm đường dẫn vào PATH**
 
 Thêm `C:\msys64\ucrt64\bin` vào biến môi trường PATH của Windows để dùng `g++` và `mingw32-make` từ terminal bất kỳ.
 
-**Bước 6: Biên dịch và chạy game**
+Sau khi thêm xong, **mở terminal mới** để PATH có hiệu lực.
+
+**Bước 7: Biên dịch và chạy game**
 
 Mở terminal tại thư mục dự án, chạy lần lượt:
 ```bash
