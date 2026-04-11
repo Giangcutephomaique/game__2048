@@ -163,11 +163,17 @@ brew install sdl2 sdl2_gfx sdl2_ttf
 
 **Bước 3: Chuẩn bị font**
 
-Game đọc font tại `assets/font.ttf`. Sao chép bất kỳ file `.ttf` nào có sẵn trên máy vào thư mục `assets/` và đổi tên thành `font.ttf`. Ví dụ:
+Game đọc font tại `assets/font.ttf`. Tạo thư mục `assets/` và sao chép font vào:
 ```bash
-cp /Library/Fonts/Arial\ Bold.ttf assets/font.ttf
-# Hoặc dùng font có sẵn trong hệ thống
-cp /System/Library/Fonts/Helvetica.ttc assets/font.ttf
+mkdir -p assets
+cp /System/Library/Fonts/Supplemental/Arial\ Bold.ttf assets/font.ttf
+```
+Nếu không có file đó, dùng font khác có sẵn trên máy (phải là file `.ttf`):
+```bash
+# Tìm file .ttf có sẵn trên máy
+find /System/Library/Fonts /Library/Fonts -name "*.ttf" | head -5
+# Sao chép 1 file bất kỳ tìm được
+cp <đường_dẫn_file_ttf> assets/font.ttf
 ```
 
 **Bước 4: Biên dịch và chạy game**
@@ -187,10 +193,13 @@ sudo apt install g++ make libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev
 
 **Bước 2: Chuẩn bị font**
 
-Game đọc font tại `assets/font.ttf`. Sao chép bất kỳ file `.ttf` nào có sẵn trên máy vào thư mục `assets/` và đổi tên thành `font.ttf`. Ví dụ:
+Game đọc font tại `assets/font.ttf`. Tạo thư mục `assets/` và sao chép font vào:
 ```bash
+mkdir -p assets
 cp /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf assets/font.ttf
-# Nếu chưa có Liberation fonts thì cài trước
+```
+Nếu chưa có Liberation fonts, cài trước rồi chạy lại lệnh trên:
+```bash
 sudo apt install fonts-liberation
 ```
 

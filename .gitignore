@@ -1,8 +1,9 @@
 # File thực thi
 *.exe
 
-# Thư mục build
-build/
+# Nội dung trong build/ nhưng giữ lại thư mục (có .gitkeep)
+build/*
+!build/.gitkeep
 
 # Thư mục VSCode
 .vscode/
@@ -10,5 +11,5 @@ build/
 # Ignore file log tạm
 temp_git_log.txt
 
-# Font
+# Font (bản quyền, không commit lên GitHub)
 assets/font.ttf
