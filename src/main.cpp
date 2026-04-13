@@ -121,7 +121,6 @@ void veChuCanGiua(SDL_Renderer *renderer, TTF_Font *font, string noi_dung,
     return;
   }
 
-
   int x = khung.x + (khung.w - surface->w) / 2;
   int y = khung.y + (khung.h - surface->h) / 2;
   SDL_Rect vung_chu = {x, y, surface->w, surface->h};
@@ -377,8 +376,13 @@ int main(int argc, char *args[]) {
   if (!font_nho)
     font_nho = TTF_OpenFont("C:\\Windows\\Fonts\\arialbd.ttf", 16);
 
-  if (!font_o || !font_tieu_de || !font_nho)
+  if (!font_o || !font_tieu_de || !font_nho) {
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(cua_so);
+    TTF_Quit();
+    SDL_Quit();
     return 1;
+  }
 
   SDL_Event su_kien;
 
@@ -564,7 +568,7 @@ int main(int argc, char *args[]) {
   if (font_nho)
     TTF_CloseFont(font_nho);
 
-  // dọn dẹp tài nguyên trước khi thoát chương trình
+  // Dọn dẹp tài nguyên trước khi thoát chương trình
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(cua_so);
   TTF_Quit();
