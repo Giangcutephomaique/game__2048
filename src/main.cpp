@@ -37,8 +37,6 @@ SDL_Rect nut_choi_moi = {RONG_CUA_SO - 150, 80, 130, 40};
 bool dang_choi = true;
 bool da_thua = false;
 bool da_thang = false;
-bool da_qua_2048 =
-    false; // Dùng để chặn game báo thắng liên tục nếu bạn chọn "Chơi tiếp"
 int diem_cao_nhat = 0;
 
 /*
@@ -314,7 +312,7 @@ void veGiaoDien(SDL_Renderer *renderer, TTF_Font *font_o,
   veBangGame(renderer, font_o);
 
   // Vẽ màn hình thắng/thua
-  if (da_thang && !da_qua_2048) {
+  if (da_thang) {
     veManHinhThang(renderer, font_tieu_de);
   } else if (da_thua) {
     veManHinhThua(renderer, font_tieu_de);
@@ -414,7 +412,6 @@ int main(int argc, char *args[]) {
               khoiTaoLaiBang();
               da_thua = false;
               da_thang = false;
-              da_qua_2048 = false;
               sinhSoMoi();
               sinhSoMoi();
               SDL_FlushEvents(SDL_FIRSTEVENT,
@@ -448,7 +445,7 @@ int main(int argc, char *args[]) {
 
         if (da_di_chuyen) {
           sinhSoMoi();
-          if (!da_qua_2048 && !da_thang) {
+          if (!da_thang) {
             for (int i = 0; i < 4; i++) {
               for (int j = 0; j < 4; j++) {
                 if (bang_o[i][j] == MUC_TIEU_THANG) {
@@ -460,7 +457,7 @@ int main(int argc, char *args[]) {
         }
 
         // KHI NGƯỜI CHƠI THẮNG
-        if (da_thang && !da_qua_2048) {
+        if (da_thang) {
           // Vẽ màn hình vàng lên ngay lập tức
           veGiaoDien(renderer, font_o, font_tieu_de, font_nho);
           SDL_RenderPresent(renderer);
@@ -490,7 +487,6 @@ int main(int argc, char *args[]) {
               // Chọn "Chơi mới": Reset lại toàn bộ
               khoiTaoLaiBang();
               da_thang = false;
-              da_qua_2048 = false;
               da_thua = false;
               sinhSoMoi();
               sinhSoMoi();
@@ -533,7 +529,6 @@ int main(int argc, char *args[]) {
               khoiTaoLaiBang();
               da_thua = false;
               da_thang = false;
-              da_qua_2048 = false;
               sinhSoMoi();
               sinhSoMoi();
               SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
