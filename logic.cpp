@@ -69,7 +69,7 @@ void Game2048::sinhSoMoi() {
     int hang_duoc_chon = hang_o_trong[vi_tri_ngau_nhien];
     int cot_duoc_chon = cot_o_trong[vi_tri_ngau_nhien];
 
-    if (rand() % 2 == 0) {
+    if (rand() % 10 < 9) {
         bang_o[hang_duoc_chon][cot_duoc_chon] = 2;
     }
     else {

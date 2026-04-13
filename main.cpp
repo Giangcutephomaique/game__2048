@@ -385,6 +385,8 @@ int main(int argc, char* args[]) {
                         if (nut_duoc_chon == 1) {
                             game.khoiTaoLaiBang();
                             da_thua = false;
+                            da_thang = false;     
+                            da_qua_2048 = false;
                             game.sinhSoMoi();
                             game.sinhSoMoi();
                             SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT); // xóa toàn bộ sự kiện (event) đang còn trong hàng đợi
@@ -421,7 +423,7 @@ int main(int argc, char* args[]) {
                         for (int i = 0; i < 4; i++) {
                             for (int j = 0; j < 4; j++) {
                                 if (game.layGiaTriTaiO(i, j) == 2048) {
-                                    da_thang = true; // Kích hoạt trạng thái thắng!
+                                    da_thang = true; // Kích hoạt trạng thái thắng!                                    
                                 }
                             }
                         }
@@ -456,6 +458,8 @@ int main(int argc, char* args[]) {
                         if (nut_duoc_chon == 1) {
                             game.khoiTaoLaiBang();
                             da_thua = false;
+                            da_thang = false;      
+                            da_qua_2048 = false;
                             game.sinhSoMoi();
                             game.sinhSoMoi();
                             SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
@@ -465,9 +469,38 @@ int main(int argc, char* args[]) {
                         }
                     }
                 }
+                // KHI NGƯỜI CHƠI THẮNG
                 if (da_thang && !da_qua_2048) {
                     // Vẽ màn hình vàng lên ngay lập tức
                     veGiaoDien(renderer, font_o, font_tieu_de, font_nho, game);
+
+                    const SDL_MessageBoxButtonData cac_nut[] = {
+                        { 0, 0, "Chơi mới" },
+                        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Thoát" }
+                    };
+
+                    const SDL_MessageBoxData hop_thoai = {
+                        SDL_MESSAGEBOX_INFORMATION, cua_so, "Chúc mừng!",
+                        "Bạn đã tạo ra ô 2048!\nBạn muốn làm gì tiếp theo?",
+                        2, cac_nut, NULL
+                    };
+
+                    int nut_duoc_chon;
+                    if (SDL_ShowMessageBox(&hop_thoai, &nut_duoc_chon) >= 0) {
+                        if (nut_duoc_chon == 1) {
+                            dang_choi = false;
+                        }
+                        else {
+                            // Chọn "Chơi mới": Reset lại toàn bộ
+                            game.khoiTaoLaiBang();
+                            da_thang = false;
+                            da_qua_2048 = false;
+                            da_thua = false;
+                            game.sinhSoMoi();
+                            game.sinhSoMoi();
+                            SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+                        }
+                    }
                 }
             }
         }
