@@ -116,6 +116,11 @@ void veChuCanGiua(SDL_Renderer *renderer, TTF_Font *font, string noi_dung,
     return;
 
   SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+  if (!texture) {
+    SDL_FreeSurface(surface);
+    return;
+  }
+
 
   int x = khung.x + (khung.w - surface->w) / 2;
   int y = khung.y + (khung.h - surface->h) / 2;
@@ -141,8 +146,12 @@ void veChu(SDL_Renderer *renderer, TTF_Font *font, string noi_dung, int x,
   if (!surface) // nếu tạo ảnh thất bại => không vẽ được chữ, nên thoát luôn
     return;
 
-  SDL_Texture *texture = SDL_CreateTextureFromSurface(
-      renderer, surface); // tạo texture từ surface chứa chữ
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+  if (!texture) {
+    SDL_FreeSurface(surface);
+    return;
+  }
+
   SDL_Rect vung_chu = {x, y, surface->w, surface->h};
   SDL_RenderCopy(renderer, texture, NULL, &vung_chu);
   SDL_FreeSurface(surface);
